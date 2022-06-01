@@ -1,22 +1,29 @@
 @import '../../styles/_cores.scss';
+
 .container{
     display: flex;
     width: 100%;
     height: 100vh;
-
-    .containerLogin{
+    .containerImagem{
+        background-image: url("../../public/src/images/ImagemCadastro.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 55%;
+        filter: contrast(1.7);
+    }
+    .containerCadastro{
         background-color: $background;
-        width: 50%;
+        width: 45%;
         display: flex;
         justify-content: center;
         align-items: center;
-        .contentLogin{
+        .contentCadastro{
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-        
-        .titleLogin{
+        }
+        .titleCadastro{
             margin-top: 80px;
             font-family: 'Roboto Slab';
             font-style: normal;
@@ -32,24 +39,10 @@
             color: $brancoFonte;
         }
         .inputs{
+            margin-top: 40px;
             display: flex;
             flex-direction: column;
             gap: 8px;
-        }
-       
-        a{
-            margin-top: 24px;
-
-            font-family: 'Roboto Slab';
-            font-style: normal;
-            font-weight: 400;
-            font-size: 16px;
-            line-height: 21px;
-            text-align: center;
-
-            /* White */
-
-            color: $brancoFonte;
         }
        
         .criarConta{
@@ -67,19 +60,14 @@
                 font-weight: 400;
                 font-size: 16px;
                 line-height: 21px;
-                text-align: center;
-                color: $amarelo;
+
+                /* White */
+
+                color: $brancoFonte;
+
             }
            
         }
-    }
-
-    }
-    .containerImagem{
-        background-image: url("../../public/src/images/Imagem.png");
-        background-repeat: no-repeat;
-        background-size: cover;
-        width: 50%;
 
     }
 }

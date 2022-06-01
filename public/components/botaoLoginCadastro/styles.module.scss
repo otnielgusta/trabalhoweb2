@@ -1,0 +1,21 @@
+@import '../../../styles/_cores';
+
+.botao{
+    margin-top: 24px;
+    width: 340px;
+    height: 56px;
+    border: none;
+    background: $amarelo;
+    border-radius: 10px;
+    font-family: 'Roboto Slab';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
+    text-align: center;
+    cursor: pointer;
+
+    /* Background */
+
+    color: $cinzaFonte;
+}
