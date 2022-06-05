@@ -1,47 +1,57 @@
 @import '../../styles/_cores.scss';
 
-.container{
+.container {
     width: 100%;
     background-color: $backgroundNav;
-    
-    nav{
+
+    nav {
         display: flex;
         height: 15vh;
         align-items: center;
         justify-content: space-between;
         padding: 0 144px 0 160px;
-        .navEsquerda{
+
+        .navEsquerda {
             display: flex;
             align-items: center;
             gap: 80px;
 
-            .divLogo{
+            .divLogo {
                 width: 137px;
                 height: 80px;
             }
-            .fotoNomeUsuario{
+
+            .fotoNomeUsuario {
                 display: flex;
                 align-items: center;
                 gap: 16px;
-                .foto{
-                    width: 56px;
-                    height: 56px;
 
-                    .fotoUsuario{
-                        border-radius: 100px;
+                .botaoFoto {
+                    background-color: transparent;
+                    border-radius: 100px;
+                    border: none;
+                    cursor: pointer;
+                    .foto {
+                        width: 56px;
+                        height: 56px;
+
+                        .fotoUsuario {
+                            border-radius: 100px;
+                        }
                     }
                 }
 
-                .divBemVindo{
+
+                .divBemVindo {
                     display: flex;
                     flex-direction: column;
                     align-items: initial;
-                    
-                    p{
+
+                    p {
                         margin: 0;
                     }
-                    
-                    .bemVindo{
+
+                    .bemVindo {
                         font-family: 'Roboto Slab';
                         font-style: normal;
                         font-weight: 400;
@@ -49,35 +59,209 @@
                         line-height: 26px;
                         color: #999591;
                     }
-                    .nome{
+
+                    .nome {
                         font-family: 'Roboto Slab';
                         font-style: normal;
                         font-weight: 500;
                         font-size: 16px;
                         line-height: 26px;
-                      
+
                         color: #FF9000;
                     }
                 }
             }
         }
-        .navDireita{
+
+        .navDireita {
             cursor: pointer;
-            .logout{
+
+            .logout {
                 width: 50px;
                 height: 50px;
             }
         }
     }
-    .content{
+
+    .content {
         min-height: 85vh;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
         background-color: $backgroundCorpo;
         padding: 64px 160px 80px 160px;
-        .contentEsquerda{
+
+        .contentEsquerda {
+            .title {
+                font-family: 'Roboto Slab';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 36px;
+                line-height: 47px;
+
+                color: $brancoFonte;
+                margin-bottom: 12px;
+            }
+
+            .subTitle {
+                font-family: 'Roboto Slab';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 21px;
+
+                color: $amarelo;
+            }
+
+            .proximoAtendimento {
+                display: flex;
+                flex-direction: column;
+                margin-top: 64px;
+                gap: 24px;
+
+                p {
+                    font-family: 'Roboto Slab';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 20px;
+                    line-height: 26px;
+
+                    color: $cinzaFonteClaro;
+                }
+
+                .cardProximoAtendimento {
+                    display: flex;
+                    max-width: 640px;
+                    height: 112px;
+                    background-color: $backgroundCard;
+                    align-items: center;
+                    justify-content: space-between;
+                    border-radius: 10px;
+
+                    p {
+                        font-family: 'Roboto Slab';
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 24px;
+                        line-height: 32px;
+                        /* identical to box height */
+
+
+                        /* White */
+
+                        color: #F4EDE8;
+                    }
+
+                    .esquerdaCard {
+                        display: flex;
+                        align-items: center;
+                        height: 100%;
+                        gap: 24px;
+                    }
+
+                    .proximoHorario {
+                        display: flex;
+                        gap: 10px;
+                        margin-right: 24px;
+
+                        p {
+                            font-family: 'Roboto Slab';
+                            font-style: normal;
+                            font-weight: 400;
+                            font-size: 20px;
+                            line-height: 26px;
+
+                            /* Gray */
+
+                            color: #999591;
+
+                        }
+                    }
+
+                    .fotoProximo {
+                        width: 56px;
+                        height: 56px;
+
+                        .fotoUsuario {
+                            border-radius: 100px;
+                        }
+                    }
+
+                    .bordaLateral {
+                        width: 2px;
+                        height: 80px;
+                        background-color: $amarelo;
+                        border-radius: 10px 0px 0px;
+                    }
+                }
+
+            }
+
+            .divHorarios {
+                margin-top: 48px;
+
+                .horarios {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                }
+
+                h2 {
+                    font-family: 'Roboto Slab';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 20px;
+                    line-height: 26px;
+                    margin-top: 48px;
+                    margin-bottom: 16px;
+
+                    /* Gray */
+
+                    color: $cinzaFonteClaro;
+                }
+            }
 
         }
-        .contentDireita{
+
+        .contentDireita {
+            width: 50%;
+            height: 100%;
+            justify-content: center;
+            display: flex;
+
+            .teste {
+                height: inherit;
+                position: absolute;
+
+                .calendario {
+                    display: flex;
+                    justify-content: center;
+                    position: sticky;
+                    top: 50px;
+
+                    .calendarioStyle {
+                        background-color: #28262E;
+
+
+                    }
+
+                    .todayClass {
+                        color: $brancoFonte;
+                        background-color: $brancoFonte;
+
+
+                    }
+
+                }
+            }
+
 
         }
     }
+}
+
+.borda {
+    width: 100%;
+    border: 1px solid #3E3B47;
+    margin-bottom: 24px;
 }

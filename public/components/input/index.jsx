@@ -1,7 +1,10 @@
 import Image from 'next/image';
-import styles from './styles.module.scss'
+import styles from './styles.module.scss';
+import { useState} from 'react';
 
 export default function InputComponent(props){
+    const [value, setValue] = useState(props.value);
+
     return(
         <div className={styles.divInput}>
             <Image 
@@ -13,7 +16,14 @@ export default function InputComponent(props){
                 srcset="" 
 
             />
-            <input type="email" placeholder={props.texto}/>
+            <input 
+                type={props.type ? props.type : 'text'}
+                placeholder={props.texto}
+                value={value}
+                onChange={(e)=>{
+                    setValue(e.target.value)
+                }}
+                />
         </div>
 );
 }

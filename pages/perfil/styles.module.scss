@@ -1,0 +1,100 @@
+@import '../../styles/_cores.scss';
+
+.container {
+    .header {
+        
+        display: flex;
+        height: 15vh;
+        align-items: center;
+        background-color: #28262E;
+        padding-left: 144px;
+
+        .botaoVoltar{
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+    }
+
+    .corpo {
+        display: flex;
+        flex-direction: column;
+        min-height: 85vh;
+        background-color: $backgroundCorpo;
+        align-items: center;
+
+        .divFoto {
+            margin-top: -10vh;
+            position: relative;
+
+            .imgFoto {
+                border-radius: 100px;
+            }
+
+            .divCamera {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                background-color: $amarelo;
+                width: 48px;
+                height: 48px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 100px;
+            }
+
+        }
+
+        .divForm {
+            margin-top: 32px;
+            margin-bottom: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            h1 {
+                font-family: 'Roboto Slab';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 20px;
+                line-height: 26px;
+                color: $brancoFonte;
+            }
+            form{
+                display: flex;
+                flex-direction: column;
+                gap: 24px;
+
+                .inputNomeEmail{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                }
+                .inputSenha{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                }
+                .botao{
+                    margin-top: 24px;
+                    width: 340px;
+                    height: 56px;
+                    border: none;
+                    background: $amarelo;
+                    border-radius: 10px;
+                    font-family: 'Roboto Slab';
+                    font-style: normal;
+                    font-weight: 500;
+                    font-size: 16px;
+                    line-height: 21px;
+                    text-align: center;
+                    cursor: pointer;
+                
+                    /* Background */
+                
+                    color: $cinzaFonte;
+                }
+            }
+        }
+    }
+}
