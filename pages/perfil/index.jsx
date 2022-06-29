@@ -9,18 +9,18 @@ export default function Perfil() {
         <div className={styles.container}>
             <div className={styles.header}>
                 <div className={styles.divVoltar}>
-                <Link href={'/home'}>
+                    <Link href={'/home'}>
                         <button className={styles.botaoVoltar}>
-                    <Image
-                        className={styles.imgVoltar}
-                        src="/src/images/Seta.svg"
-                        alt="Foto"
-                        width='50'
-                        height='50'
+                            <Image
+                                className={styles.imgVoltar}
+                                src="/src/images/Seta.svg"
+                                alt="Foto"
+                                width='50'
+                                height='50'
 
-                    />
-                </button>
-                </Link>
+                            />
+                        </button>
+                    </Link>
                 </div>
             </div>
             <div className={styles.corpo}>
@@ -43,6 +43,8 @@ export default function Perfil() {
                             height='20'
 
                         />
+                        <input className={styles.inputImage} type='file' accept='image/*' />
+
                     </div>
                 </div>
                 <div className={styles.divForm}>
@@ -62,7 +64,7 @@ export default function Perfil() {
                         <button
                             className={styles.botao}
                             type="submit"
-                            onSubmit={()=>{}}
+                            onSubmit={() => { }}
                         >Confirmar mudanças
                         </button>
 

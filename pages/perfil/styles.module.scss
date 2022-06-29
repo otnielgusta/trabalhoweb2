@@ -2,14 +2,14 @@
 
 .container {
     .header {
-        
+
         display: flex;
         height: 15vh;
         align-items: center;
         background-color: #28262E;
         padding-left: 144px;
 
-        .botaoVoltar{
+        .botaoVoltar {
             background-color: transparent;
             border: none;
             cursor: pointer;
@@ -32,6 +32,8 @@
             }
 
             .divCamera {
+                cursor: pointer;
+                
                 position: absolute;
                 right: 0;
                 bottom: 0;
@@ -42,6 +44,17 @@
                 justify-content: center;
                 align-items: center;
                 border-radius: 100px;
+
+                input {
+
+                    position: absolute;
+                    height: 48px;
+                    width: 48px;
+                    background: transparent;
+                    opacity: 0;
+                    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+                    filter: alpha(opacity=0);
+                }
             }
 
         }
@@ -52,6 +65,7 @@
             display: flex;
             flex-direction: column;
             gap: 24px;
+
             h1 {
                 font-family: 'Roboto Slab';
                 font-style: normal;
@@ -60,22 +74,25 @@
                 line-height: 26px;
                 color: $brancoFonte;
             }
-            form{
+
+            form {
                 display: flex;
                 flex-direction: column;
                 gap: 24px;
 
-                .inputNomeEmail{
+                .inputNomeEmail {
                     display: flex;
                     flex-direction: column;
                     gap: 8px;
                 }
-                .inputSenha{
+
+                .inputSenha {
                     display: flex;
                     flex-direction: column;
                     gap: 8px;
                 }
-                .botao{
+
+                .botao {
                     margin-top: 24px;
                     width: 340px;
                     height: 56px;
@@ -89,9 +106,9 @@
                     line-height: 21px;
                     text-align: center;
                     cursor: pointer;
-                
+
                     /* Background */
-                
+
                     color: $cinzaFonte;
                 }
             }
