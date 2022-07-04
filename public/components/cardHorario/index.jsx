@@ -2,7 +2,10 @@ import Image from 'next/image';
 import styles from './styles.module.scss'
 
 export default function CardHorario(props) {
-    return (
+    const myLoader=({src})=>{
+        return props.foto;
+    }
+        return (
         <div className={styles.cardHorario}>
             <div className={styles.horario}>
                 <Image
@@ -18,7 +21,8 @@ export default function CardHorario(props) {
                 <div className={styles.divFotoCardHorario}>
                     <Image
                         className={styles.fotoCardHorario}
-                        src="/src/images/Foto.jpg"
+                        loader={myLoader}
+                        src={props.foto}
                         alt="Foto"
                         width='56'
                         height='56'

@@ -20,9 +20,7 @@ export default function InputComponent(props){
                 type={props.type ? props.type : 'text'}
                 placeholder={props.texto}
                 value={value}
-                onChange={(e)=>{
-                    setValue(e.target.value)
-                }}
+                onChange={props.onChange}
                 />
         </div>
 );

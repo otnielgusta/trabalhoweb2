@@ -3,18 +3,63 @@ import CardHorario from '../../public/components/cardHorario';
 import InputComponent from '../../public/components/input';
 import styles from './styles.module.scss'
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Calendar } from "react-modern-calendar-datepicker";
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { listarHorariosMarcados } from '../../controllers/horario_controller';
 
 export default function Home() {
-    const foto = 'https://lh3.googleusercontent.com/bFytQbnUQXsph4pscbna6XyONqWofZc-uOPynCfgo6rbHrS815BxVMqPEHejHohA4-cMi8fI11mDwUJbhNQx=w2390-h955'
-    const defaultValue = {
-        year: 2022,
-        month: 6,
-        day: 15,
-    };
+    const router = useRouter();
+
     const [selectedDay, setSelectedDay] = useState();
+    const [horarios, setHorarios] = useState({});
+    const [isLoading, setLoading] = useState({});
+    const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+    const [status, setStatus] = useState();
+
+    const [manha, setManha] = useState([]);
+    const [tarde, setTarde] = useState([]);
+    const [noite, setNoite] = useState([]);
+
+    async function setHorariosParte() {
+        const response = await listarHorariosMarcados(date, setLoading, setHorarios, setStatus);
+        console.log("RESPONSE: " + response);
+        if (status == 200) {
+            
+
+            var manhaa;
+            var tardee;
+            var noitee;
+            if (manha.length == 0) {
+                manhaa = horarios.horarios.filter(function (val) {
+                    return val.parte == "manha"
+                });
+                setManha(manhaa);
+            }
+            if (tarde.length == 0) {
+                tardee = horarios.horarios.filter(function (val) {
+                    return val.parte == "tarde"
+                });
+                setTarde(tardee);
+
+            }
+            if (noite.length == 0) {
+                noitee = horarios.horarios.filter(function (val) {
+                    return val.parte == "noite"
+                });
+                setNoite(noitee);
+
+            }
+        }
+
+    }
+
+    useEffect(() => {
+        setHorariosParte();
+
+    }, [manha, tarde, noite])
+
     return (
         <div className={styles.container}>
             <nav>
@@ -110,8 +155,16 @@ export default function Home() {
                             <h2>Manhã</h2>
                             <div className={styles.borda}></div>
                             <div className={styles.horarios}>
-                                <CardHorario horario='08:30' nome='Leonardo Minatti' />
-                                <CardHorario horario='11:00' nome='Leonardo Minatti' />
+                                {
+                                    manha.length > 0 ?
+                                        manha.map((e) => {
+                                            return <CardHorario horario={e.horario} nome={e.nome} foto={e.foto} />
+
+                                        })
+                                        : <div><p>Ta vazio</p></div>
+
+                                }
+
                             </div>
 
                         </div>
@@ -119,9 +172,15 @@ export default function Home() {
                             <h2>Tarde</h2>
                             <div className={styles.borda}></div>
                             <div className={styles.horarios}>
-                                <CardHorario horario='13:00' nome='Leonardo Minatti' />
-                                <CardHorario horario='15:00' nome='Leonardo Minatti' />
-                                <CardHorario horario='17:30' nome='Leonardo Minatti' />
+                                {
+                                    tarde.length > 0 ?
+                                        tarde.map((e) => {
+                                            return <CardHorario horario={e.horario} nome={e.nome} foto={e.foto} />
+
+                                        })
+                                        : <div><p>Ta vazio</p></div>
+
+                                }
                             </div>
 
                         </div>
@@ -129,11 +188,14 @@ export default function Home() {
                             <h2>Noite</h2>
                             <div className={styles.borda}></div>
                             <div className={styles.horarios}>
-                                <CardHorario horario='18:30' nome='Leonardo Minatti' />
-                                <CardHorario horario='19:00' nome='Leonardo Minatti' />
-                                <CardHorario horario='19:30' nome='Leonardo Minatti' />
-                                <CardHorario horario='20:00' nome='Leonardo Minatti' />
-                                <CardHorario horario='20:30' nome='Leonardo Minatti' />
+                                {
+                                    noite.length > 0 ?
+                                        noite.map((e) => {
+                                            return <CardHorario horario={e.horario} nome={e.nome} foto={e.foto} />
+
+                                        })
+                                        : <div><p>Ta vazio</p></div>
+                                }
                             </div>
 
                         </div>

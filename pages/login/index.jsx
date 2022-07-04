@@ -2,9 +2,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import BotaoLoginCadastro from '../../public/components/botaoLoginCadastro';
 import InputComponent from '../../public/components/input';
-import styles from './styles.module.scss'
+import styles from './styles.module.scss';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import {login} from '../../controllers/cabelereiro_controller';
 
 export default function Login() {
+    const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+
     return (
         <div className={styles.container}>
             <div className={styles.containerLogin}>
@@ -22,26 +29,57 @@ export default function Login() {
                     <div>
                         <form action="">
                             <div className={styles.inputs}>
+                            <div className={styles.divInput}>
+                                    <Image
+                                        className={styles.iconInput}
+                                        src={'/src/images/E-mail.png'}
+                                        alt="Logo"
+                                        width='20'
+                                        height='18'
+                                        srcset=""
 
-                                <InputComponent imagem="E-mail" type="email" texto="E-mail" />
-                                <InputComponent imagem="Senha" type="password" texto="Senha" />
+                                    />
+                                    <input
+                                        type="email"
+                                        placeholder="E-mail"
+                                        onChange={(value)=>{
+                                            setEmail(value.target.value);
+                                        }}
+                                    />
+                                </div>
+                                <div className={styles.divInput}>
+                                    <Image
+                                        className={styles.iconInput}
+                                        src={'/src/images/Senha.png'}
+                                        alt="Logo"
+                                        width='20'
+                                        height='18'
+                                        srcset=""
+
+                                    />
+                                    <input
+                                        type="password"
+                                        placeholder="Senha"
+                                        onChange={(value)=>{
+                                            setSenha(value.target.value);
+                                        }}
+                                    />
+                                </div>
+                                
                             </div>
-                            <Link href={'/home'}>
                                 <BotaoLoginCadastro
                                     texto="Entrar"
-                                    onClick={(e) => {
-
+                                    onClick={async(e) => {
+                                        e.preventDefault();
+                                        await login(router, email, senha);
                                     }}
                                 />
-                            </Link>
 
                         </form>
                     </div>
                     <Link className={styles.esqueciSenha} href="{}" >Esqueci minha senha</Link>
                     <Link href={'/cadastro'}>
                         <button className={styles.criarConta}>
-
-
                             <Image
                                 className={styles.imagemCriar}
                                 src="/src/images/Criar.png"
@@ -49,10 +87,8 @@ export default function Login() {
                                 width='20'
                                 height='20'
                                 srcset=""
-
                             />
                             <p>Criar conta</p>
-
                         </button>
                     </Link>
 
