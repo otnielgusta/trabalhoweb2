@@ -5,7 +5,7 @@ import InputComponent from '../../public/components/input';
 import styles from './styles.module.scss';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import {login} from '../../controllers/cabelereiro_controller';
+import { login } from '../../controllers/cabelereiro_controller';
 
 export default function Login() {
     const router = useRouter();
@@ -29,7 +29,7 @@ export default function Login() {
                     <div>
                         <form action="">
                             <div className={styles.inputs}>
-                            <div className={styles.divInput}>
+                                <div className={styles.divInput}>
                                     <Image
                                         className={styles.iconInput}
                                         src={'/src/images/E-mail.png'}
@@ -42,7 +42,7 @@ export default function Login() {
                                     <input
                                         type="email"
                                         placeholder="E-mail"
-                                        onChange={(value)=>{
+                                        onChange={(value) => {
                                             setEmail(value.target.value);
                                         }}
                                     />
@@ -60,20 +60,20 @@ export default function Login() {
                                     <input
                                         type="password"
                                         placeholder="Senha"
-                                        onChange={(value)=>{
+                                        onChange={(value) => {
                                             setSenha(value.target.value);
                                         }}
                                     />
                                 </div>
-                                
+
                             </div>
-                                <BotaoLoginCadastro
-                                    texto="Entrar"
-                                    onClick={async(e) => {
-                                        e.preventDefault();
-                                        await login(router, email, senha);
-                                    }}
-                                />
+                            <BotaoLoginCadastro
+                                texto="Entrar"
+                                onClick={async (e) => {
+                                    e.preventDefault();
+                                    await login(router, email, senha);
+                                }}
+                            />
 
                         </form>
                     </div>

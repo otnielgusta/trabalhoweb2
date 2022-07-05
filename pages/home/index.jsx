@@ -8,13 +8,16 @@ import { Calendar } from "react-modern-calendar-datepicker";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { listarHorariosMarcados } from '../../controllers/horario_controller';
+import cookie from 'js-cookie';
+import Host from '../../host';
+import swal from 'sweetalert';
 
 export default function Home() {
     const router = useRouter();
 
     const [selectedDay, setSelectedDay] = useState();
-    const [horarios, setHorarios] = useState({});
-    const [isLoading, setLoading] = useState({});
+    const [horarios, setHorarios] = useState([]);
+    const [isLoading, setLoading] = useState(false);
     const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
     const [status, setStatus] = useState();
 
@@ -22,43 +25,84 @@ export default function Home() {
     const [tarde, setTarde] = useState([]);
     const [noite, setNoite] = useState([]);
 
-    async function setHorariosParte() {
-        const response = await listarHorariosMarcados(date, setLoading, setHorarios, setStatus);
-        console.log("RESPONSE: " + response);
-        if (status == 200) {
-            
-
-            var manhaa;
-            var tardee;
-            var noitee;
-            if (manha.length == 0) {
-                manhaa = horarios.horarios.filter(function (val) {
-                    return val.parte == "manha"
-                });
-                setManha(manhaa);
-            }
-            if (tarde.length == 0) {
-                tardee = horarios.horarios.filter(function (val) {
-                    return val.parte == "tarde"
-                });
-                setTarde(tardee);
-
-            }
-            if (noite.length == 0) {
-                noitee = horarios.horarios.filter(function (val) {
-                    return val.parte == "noite"
-                });
-                setNoite(noitee);
-
+    function setHorariosParte() {
+        if (isLoading) {
+            return
+        }
+        setLoading(true);
+        const session_token = cookie.get("session_token");
+        let config = {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                authorization: JSON.stringify(session_token)
             }
         }
+
+        fetch(Host.baseUrl + "/lista-horarios-marcados?data=" + date, config)
+            .then((response) => {
+                if (response.status == 200) {
+                    Promise.resolve(response.json()).then((resolve)=>{
+                        console.log(resolve.horarios);
+                        setHorarios(resolve.horarios);
+                        setLoading(false);
+                    })
+                }else if (response.status == 404) {
+                    swal({
+                        title: "Sem horarios",
+                        text: "O usuário digitado não foi encontrado na base de dados.",
+                        icon: "warning",
+                        dangerMode: true,
+                    })
+                    setLoading(false);
+
+                } else if (response.status == 401) {
+                    swal({
+                        title: "Ocorreu um erro",
+                        text: resolve.data[0].msg,
+
+                        icon: "error",
+                        dangerMode: true,
+                    })
+                    setLoading(false);
+
+                }
+            });
+        
+
+        // if (horarios.length > 0) {
+
+        //     if (manha.length == 0) {
+        //         let manhaa = horarios.filter(function (val) {
+        //             return val.parte == "manha"
+        //         });
+        //         setManha(manhaa);
+        //     }
+        //     if (tarde.length == 0) {
+        //         let tardee = horarios.filter(function (val) {
+        //             return val.parte == "tarde"
+        //         });
+        //         setTarde(tardee);
+
+        //     }
+        //     if (noite.length == 0) {
+        //         let noitee = horarios.filter(function (val) {
+        //             return val.parte == "noite"
+        //         });
+        //         setNoite(noitee);
+
+        //     }
+        // }
+        setLoading(false);
+
 
     }
 
     useEffect(() => {
         setHorariosParte();
 
-    }, [manha, tarde, noite])
+    }, [horarios])
 
     return (
         <div className={styles.container}>
@@ -173,7 +217,9 @@ export default function Home() {
                             <div className={styles.borda}></div>
                             <div className={styles.horarios}>
                                 {
+
                                     tarde.length > 0 ?
+
                                         tarde.map((e) => {
                                             return <CardHorario horario={e.horario} nome={e.nome} foto={e.foto} />
 

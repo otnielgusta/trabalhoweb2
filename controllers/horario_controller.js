@@ -1,16 +1,9 @@
 import cookie from 'js-cookie';
 import Host from '../host';
 import swal from 'sweetalert';
-
 module.exports = {
     async listarHorariosMarcados(data, setLoading, setHorarios, setStatus) {
-        console.log(data);
-        var status;
-        console.log("ENTROU");
         const session_token = cookie.get("session_token");
-        console.log(session_token);
-
-        setLoading(true);
         let config = {
             method: 'GET',
             headers: {
@@ -20,37 +13,36 @@ module.exports = {
             }
         }
 
-        fetch(Host.baseUrl + "/lista-horarios-marcados?data="+data, config)
-        .then((response)=>{
-            setStatus(response.status);
-            status = response.status;
-            return response.json();
-        })
-        .then((data)=>{
-            console.log("O RESPONSE FOI: "+data.msg);
-            if (status == 200) {
-                console.log(data);
-                setHorarios(data);
-            }  else if (status == 404) {
-                 swal({
-                  title: "Sem horarios",
-                  text: "O usuário digitado não foi encontrado na base de dados.",
-                  icon: "warning",
-                  dangerMode: true,
-                })
-              } else if (status == 401) {
-                 swal({
-                  title: "Ocorreu um erro",
-                  text: data.msg,
-          
-                  icon: "error",
-                  dangerMode: true,
-                })
-              }
-        })
-       
+        fetch(Host.baseUrl + "/lista-horarios-marcados?data=" + data, config)
+            .then((response) => {
+                if (response.status == 200) {
+                    Promise.resolve(response.json()).then((resolve)=>{
+                        console.log(resolve.horarios);
+                        setHorarios(resolve.horarios);
+                        setLoading(false);
+                    })
+                }else if (response.status == 404) {
+                    swal({
+                        title: "Sem horarios",
+                        text: "O usuário digitado não foi encontrado na base de dados.",
+                        icon: "warning",
+                        dangerMode: true,
+                    })
+                    setLoading(false);
 
-        setLoading(false);
+                } else if (response.status == 401) {
+                    swal({
+                        title: "Ocorreu um erro",
+                        text: resolve.data[0].msg,
+
+                        icon: "error",
+                        dangerMode: true,
+                    })
+                    setLoading(false);
+
+                }
+            })
+
 
     }
 }

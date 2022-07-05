@@ -1,29 +1,37 @@
 @import '../../styles/_cores.scss';
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap');
 
-.container{
+.container {
     display: flex;
     width: 100%;
-    height: 100vh;
-    .containerImagem{
+    min-height: 100vh;
+
+    .containerImagem {
         background-image: url("../../public/src/images/ImagemCadastro.png");
         background-repeat: no-repeat;
         background-size: cover;
         width: 55%;
         filter: contrast(1.7);
     }
-    .containerCadastro{
+
+    .containerCadastro {
         background-color: $background;
         width: 45%;
+        min-height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
-        .contentCadastro{
+        padding: 50px 0;
+
+        .contentCadastro {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
         }
-        .titleCadastro{
+
+        .titleCadastro {
             margin-top: 80px;
             font-family: 'Roboto Slab';
             font-style: normal;
@@ -38,14 +46,95 @@
 
             color: $brancoFonte;
         }
-        .inputs{
+
+        .inputs {
             margin-top: 40px;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            .divInput{
+                width: 340px;
+                height: 56px;
+                background: $backgroundInput;
+                border-radius: 10px;
+                padding-left: 16px;
+                display: flex;
+                align-items: center;
+              
+                input{
+                    max-width: 100%;
+                    max-height: 100%;
+                    margin-left: 8px;
+                    padding-left: 8px;
+                    background-color: transparent;
+                    border: none;
+                    color: $brancoFonte;
+                    font-family: 'Roboto Slab';
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 16px;
+                    line-height: 21px;
+                    display: flex;
+                    align-items: center;
+            
+                    &:focus{
+                        outline: none;
+                    }
+                }
+                
+            }
+
+            .divCheckbox {
+                color: $cinzaFonteClaro;
+                font-family: 'Roboto Slab', serif;
+
+                .field_set {
+                    border-color: $backgroundInput;
+                    border-style: solid;
+                    border-width: 5px;
+                    border-radius: 8px;
+
+                    .checkbox {
+                        width: 20px;
+                        height: 20px;
+                        display: inline-block;
+                        vertical-align: top;
+                        margin-right: 20px;
+                    }
+
+
+                }
+
+                .field_set_horarios {
+                    border-color: $backgroundInput;
+                    border-style: solid;
+                    border-width: 5px;
+                    border-radius: 8px;
+                    display: flex;
+                    justify-content: space-between;
+                    
+                   
+                    .checkbox {
+                        width: 20px;
+                        height: 20px;
+                        display: inline-block;
+                        vertical-align: top;
+                        margin-right: 20px;
+                    }
+
+                    .title {
+                        font-size: 16px;
+                        font-weight: 400;
+                        margin-bottom: 10px;
+                    }
+
+                }
+
+
+            }
         }
-       
-        .criarConta{
+
+        .criarConta {
             margin-top: 80px;
             height: 20px;
             display: flex;
@@ -54,7 +143,8 @@
             background-color: transparent;
             border: none;
             cursor: pointer;
-            p{
+
+            p {
                 font-family: 'Roboto Slab';
                 font-style: normal;
                 font-weight: 400;
@@ -66,7 +156,7 @@
                 color: $brancoFonte;
 
             }
-           
+
         }
 
     }
