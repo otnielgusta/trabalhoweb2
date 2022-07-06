@@ -3,7 +3,7 @@ import styles from './styles.module.scss'
 
 export default function CardHorario(props) {
     const myLoader=({src})=>{
-        return props.foto;
+        return src;
     }
         return (
         <div className={styles.cardHorario}>

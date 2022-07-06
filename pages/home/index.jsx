@@ -8,27 +8,37 @@ import { Calendar } from "react-modern-calendar-datepicker";
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { listarHorariosMarcados } from '../../controllers/horario_controller';
+import { auth } from '../../controllers/cabelereiro_controller';
 import cookie from 'js-cookie';
 import Host from '../../host';
 import swal from 'sweetalert';
 
 export default function Home() {
     const router = useRouter();
+    const [usuario, setUsuario] = useState({});
 
-    const [selectedDay, setSelectedDay] = useState();
+    const [selectedDay, setSelectedDay] = useState({
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() ,
+        day: new Date().getDate()
+    });
     const [horarios, setHorarios] = useState([]);
     const [isLoading, setLoading] = useState(false);
-    const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
     const [status, setStatus] = useState();
 
     const [manha, setManha] = useState([]);
     const [tarde, setTarde] = useState([]);
     const [noite, setNoite] = useState([]);
+    const myLoader = ({ src }) => {
+        return src;
+    }
 
     function setHorariosParte() {
         if (isLoading) {
             return
         }
+
+        const date = new Date(selectedDay.year, selectedDay.month -1, selectedDay.day).toISOString().slice(0, 10)
         setLoading(true);
         const session_token = cookie.get("session_token");
         let config = {
@@ -39,16 +49,18 @@ export default function Home() {
                 authorization: JSON.stringify(session_token)
             }
         }
-
         fetch(Host.baseUrl + "/lista-horarios-marcados?data=" + date, config)
             .then((response) => {
+
                 if (response.status == 200) {
-                    Promise.resolve(response.json()).then((resolve)=>{
+                    Promise.resolve(response.json()).then((resolve) => {
+                        console.log(resolve);
+
                         console.log(resolve.horarios);
                         setHorarios(resolve.horarios);
                         setLoading(false);
                     })
-                }else if (response.status == 404) {
+                } else if (response.status == 404) {
                     swal({
                         title: "Sem horarios",
                         text: "O usuário digitado não foi encontrado na base de dados.",
@@ -69,40 +81,57 @@ export default function Home() {
 
                 }
             });
-        
 
-        // if (horarios.length > 0) {
 
-        //     if (manha.length == 0) {
-        //         let manhaa = horarios.filter(function (val) {
-        //             return val.parte == "manha"
-        //         });
-        //         setManha(manhaa);
-        //     }
-        //     if (tarde.length == 0) {
-        //         let tardee = horarios.filter(function (val) {
-        //             return val.parte == "tarde"
-        //         });
-        //         setTarde(tardee);
+        if (horarios.length > 0) {
 
-        //     }
-        //     if (noite.length == 0) {
-        //         let noitee = horarios.filter(function (val) {
-        //             return val.parte == "noite"
-        //         });
-        //         setNoite(noitee);
+            if (manha.length == 0) {
+                let manhaa = horarios.filter(function (val) {
+                    return val.parte == "manha"
+                });
+                setManha(manhaa);
+            }
+            if (tarde.length == 0) {
+                let tardee = horarios.filter(function (val) {
+                    return val.parte == "tarde"
+                });
+                setTarde(tardee);
 
-        //     }
-        // }
+            }
+            if (noite.length == 0) {
+                let noitee = horarios.filter(function (val) {
+                    return val.parte == "noite"
+                });
+
+                setNoite(noitee);
+
+            }
+        }
         setLoading(false);
 
 
     }
 
     useEffect(() => {
-        setHorariosParte();
 
-    }, [horarios])
+        if (cookie.get("session_token")) {
+            auth(router, "home");
+        } else {
+            typeof window !== 'undefined' && router.push({
+                pathname: '/login',
+            });
+        }
+        if (window.localStorage.getItem("currentUser")) {
+
+            setUsuario(JSON.parse(window.localStorage.getItem("currentUser")));
+        }
+
+        if (isLoading == false) {
+
+            setHorariosParte();
+        }
+        console.log(selectedDay);
+    }, [ selectedDay])
 
     return (
         <div className={styles.container}>
@@ -119,38 +148,62 @@ export default function Home() {
                         />
                     </div>
                     <div className={styles.fotoNomeUsuario}>
-                        <Link href={'/perfil'}>
-                            <button className={styles.botaoFoto}>
+                        <Link passHref href={'/perfil'}>
+                            <a target="_self" className={styles.botaoFoto}>
                                 <div className={styles.foto}>
 
-                                    <Image
-                                        className={styles.fotoUsuario}
-                                        src="/src/images/Foto.jpg"
-                                        alt="Foto"
-                                        width='56'
-                                        height='56'
+                                    {
+                                        usuario.foto ? <Image
+                                            className={styles.fotoUsuario}
+                                            loader={myLoader}
+                                            src={usuario.foto}
+                                            alt="Foto"
+                                            width='56'
+                                            height='56'
 
-                                    />
+                                        /> :
+                                            <Image
+                                                className={styles.fotoUsuario}
+                                                src="/src/images/Foto.jpg"
+                                                alt="Foto"
+                                                width='56'
+                                                height='56'
+
+                                            />
+                                    }
                                 </div>
-                            </button>
+                            </a>
                         </Link>
                         <div className={styles.divBemVindo}>
                             <p className={styles.bemVindo}>Bem Vindo</p>
-                            <p className={styles.nome}>Tiago Luchemberg</p>
+                            <p className={styles.nome}>{usuario.nome}</p>
                         </div>
                     </div>
                 </div>
                 <div className={styles.navDireita}>
                     <div className={styles.logout}>
-                        <Image
-                            className={styles.imgLogout}
-                            src="/src/images/Sair.png"
-                            alt="Sair"
-                            width='50'
-                            height='50'
-                            srcset=""
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                cookie.remove("session_token");
+                                window.localStorage.removeItem("currentUser");
+                                router.push({
+                                    pathname: '/login'
+                                })
+                            }}
+                            className={styles.btnLogout}>
 
-                        />
+                            <Image
+                                className={styles.imgLogout}
+                                src="/src/images/Sair.png"
+                                alt="Sair"
+                                width='50'
+                                height='50'
+                                srcset=""
+
+                            />
+                        </button>
+
                     </div>
                 </div>
             </nav>
@@ -158,42 +211,10 @@ export default function Home() {
                 <div className={styles.contentEsquerda}>
                     <div className={styles.divTitle}>
                         <h1 className={styles.title}>Horários agendados</h1>
-                        <p className={styles.subTitle}>Hoje | Dia 06 | Segunda-feira</p>
+                        <p className={styles.subTitle}>{selectedDay.day + "/" + selectedDay.month + "/" + selectedDay.year}</p>
 
                     </div>
-                    <div className={styles.proximoAtendimento}>
-                        <p>Atendimento a seguir</p>
-                        <div className={styles.cardProximoAtendimento}>
-                            <div className={styles.esquerdaCard}>
 
-                                <div className={styles.bordaLateral}>
-                                </div>
-                                <div className={styles.fotoProximo}>
-                                    <Image
-                                        className={styles.fotoUsuario}
-                                        src="/src/images/Foto.jpg"
-                                        alt="Foto"
-                                        width='56'
-                                        height='56'
-
-                                    />
-                                </div>
-                                <p>Leonardo Minatti</p>
-                            </div>
-
-                            <div className={styles.proximoHorario}>
-                                <Image
-                                    className={styles.imagemProximoRelogio}
-                                    src="/src/images/Horario.svg"
-                                    alt="Foto"
-                                    width='24'
-                                    height='24'
-                                />
-                                <p>08:00</p>
-                            </div>
-
-                        </div>
-                    </div>
                     <div className={styles.divHorarios}>
                         <div className={styles.divHoraDia}>
                             <h2>Manhã</h2>
@@ -205,7 +226,7 @@ export default function Home() {
                                             return <CardHorario horario={e.horario} nome={e.nome} foto={e.foto} />
 
                                         })
-                                        : <div><p>Ta vazio</p></div>
+                                        : <div><p>Sem horário marcado</p></div>
 
                                 }
 
@@ -224,7 +245,7 @@ export default function Home() {
                                             return <CardHorario horario={e.horario} nome={e.nome} foto={e.foto} />
 
                                         })
-                                        : <div><p>Ta vazio</p></div>
+                                        : <div><p>Sem horário marcado</p></div>
 
                                 }
                             </div>
@@ -240,7 +261,7 @@ export default function Home() {
                                             return <CardHorario horario={e.horario} nome={e.nome} foto={e.foto} />
 
                                         })
-                                        : <div><p>Ta vazio</p></div>
+                                        : <div><p>Sem horário marcado</p></div>
                                 }
                             </div>
 

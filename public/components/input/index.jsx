@@ -19,7 +19,6 @@ export default function InputComponent(props){
             <input 
                 type={props.type ? props.type : 'text'}
                 placeholder={props.texto}
-                value={value}
                 onChange={props.onChange}
                 />
         </div>

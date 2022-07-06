@@ -5,8 +5,11 @@ import BotaoLoginCadastro from '../../public/components/botaoLoginCadastro';
 import InputComponent from '../../public/components/input';
 import styles from './styles.module.scss';
 import { cadastro } from '../../controllers/cabelereiro_controller';
+import { useRouter } from 'next/router';
 
 export default function Cadastro() {
+    const router = useRouter();
+
 
     const [horarios, setHorarios] = useState([{
         "id": "0",
@@ -132,6 +135,7 @@ export default function Cadastro() {
     const [tarde, setTarde] = useState([]);
     const [noite, setNoite] = useState([]);
     const [email, setEmail] = useState("");
+    
     const [nome, setNome] = useState("");
     const [horarioTexto, setHorarioTexto] = useState("");
     const [dataTexto, setDataTexto] = useState("");
@@ -374,7 +378,7 @@ export default function Cadastro() {
                                 texto="Cadastrar"
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    cadastro(nome, email, senha, diasSelecionados, horariosSelecionados, dataTexto, horarioTexto);
+                                    cadastro(router, nome, email, senha, diasSelecionados, horariosSelecionados, dataTexto, horarioTexto);
                                 }}
                             />
                         </form>
