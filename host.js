@@ -1,3 +1,3 @@
 export default class Host{
-    static baseUrl = "http://192.168.0.199:8000";
+    static baseUrl = "http://10.50.13.167:8000";
 }

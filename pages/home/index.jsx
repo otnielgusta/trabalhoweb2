@@ -33,7 +33,7 @@ export default function Home() {
         return src;
     }
 
-    function setHorariosParte() {
+    const setHorariosParte = async () => {
         if (isLoading) {
             return
         }
@@ -53,6 +53,9 @@ export default function Home() {
             .then((response) => {
 
                 if (response.status == 200) {
+
+                    
+
                     Promise.resolve(response.json()).then((resolve) => {
                         console.log(resolve);
 
@@ -112,6 +115,10 @@ export default function Home() {
 
     }
 
+    async function onChangeCalendario(){
+        await setHorariosParte();
+    }
+
     useEffect(() => {
 
         if (cookie.get("session_token")) {
@@ -125,13 +132,10 @@ export default function Home() {
 
             setUsuario(JSON.parse(window.localStorage.getItem("currentUser")));
         }
-
-        if (isLoading == false) {
-
-            setHorariosParte();
-        }
-        console.log(selectedDay);
-    }, [ selectedDay])
+        
+        setHorariosParte();
+        
+    }, [router.pathname, selectedDay, manha, tarde, noite])
 
     return (
         <div className={styles.container}>
@@ -277,7 +281,14 @@ export default function Home() {
 
                             <Calendar
                                 value={selectedDay}
-                                onChange={setSelectedDay}
+                                onChange={(e)=>{
+                                    setManha([]);
+                                    setTarde([]);
+                                    setNoite([]);
+                                    setSelectedDay(e);
+
+                                    //onChangeCalendario(e)
+                                }}
                                 colorPrimary='#FF9000'
                                 calendarClassName={styles.calendarioStyle}
 
